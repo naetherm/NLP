@@ -7,3 +7,4 @@ conllu
 ujson
 regex
 tqdm
+sklearn
