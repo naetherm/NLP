@@ -1,4 +1,6 @@
 tensorflow
+bert-tensorflow
+xlnet-tensorflow
 torch
 argparse
 conllu
