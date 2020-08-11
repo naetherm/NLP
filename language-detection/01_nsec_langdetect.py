@@ -37,12 +37,13 @@ LOGGER.debug(">> done.")
 labels = np.unique(Y, return_counts=True)[0]
 
 
-def clean_text(string):
+def cleanup_text(string):
+  ''' As we are only interested in the text remove all unnecessary information '''
   res = re.sub(u'[0-9!@#$%^&*()_\-+{}|\~`\'";:?/.>,<]', ' ', string.lower(), flags=re.UNICODE)
   return re.sub(r'[ ]+', ' ', res.lower()).strip()
 
 
-X = [clean_text(s) for s in X]
+X = [cleanup_text(s) for s in X]
 
 bow_chars = CountVectorizer(ngram_range=(3, 5), analyzer='char_wb', max_features=700000).fit(X)
 delattr(bow_chars, 'stop_words_')
@@ -61,20 +62,26 @@ def convert_sparse_matrix_to_sparse_tensor(X, limit=5):
 
 
 class NSECLanguageDetection(object):
+  """
+  The simple model used for the language detection of NSEC
+  """
   def __init__(self, learning_rate):
     super(NSECLanguageDetection, self).__init__()
     
+    # the
     self.X = tf.compat.v1.sparse_placeholder(tf.int32)
     self.W = tf.compat.v1.sparse_placeholder(tf.int32)
+    # the target language label
     self.Y = tf.compat.v1.placeholder(tf.int32, [None])
     embeddings = tf.Variable(tf.compat.v1.truncated_normal([train_X.shape[1], 64]))
     embed = tf.nn.embedding_lookup_sparse(embeddings, self.X, self.W, combiner='mean')
+    # Default procedure: get logits, calculate the loss wrt. target and optimize
     self.logits = tf.compat.v1.layers.dense(embed, len(labels))
-    self.cost = tf.reduce_mean(tf.nn.sparse_softmax_cross_entropy_with_logits(
+    self.loss = tf.reduce_mean(tf.nn.sparse_softmax_cross_entropy_with_logits(
       logits=self.logits,
       labels=self.Y)
     )
-    self.optimizer = tf.compat.v1.train.AdamOptimizer(learning_rate=learning_rate).minimize(self.cost)
+    self.optimizer = tf.compat.v1.train.AdamOptimizer(learning_rate=learning_rate).minimize(self.loss)
     correct_pred = tf.equal(tf.argmax(self.logits, 1, output_type=tf.int32), self.Y)
     self.accuracy = tf.reduce_mean(tf.cast(correct_pred, tf.float32))
 
@@ -83,7 +90,7 @@ class NSECLanguageDetection(object):
 # Default TF (1.X) workflow
 #
 sess = tf.compat.v1.InteractiveSession()
-model = NSECLanguageDetection(learning_rate=1e-4)
+model = NSECLanguageDetection(learning_rate=1e-2)
 sess.run(tf.compat.v1.global_variables_initializer())
 
 batch_size = 64
@@ -97,7 +104,7 @@ for e in range(5):
     batch_x = convert_sparse_matrix_to_sparse_tensor(train_X[i: min(i + batch_size, train_X.shape[0])])
     batch_y = train_Y[i: min(i + batch_size, train_X.shape[0])]
     acc, cost, _ = sess.run(
-      [model.accuracy, model.cost, model.optimizer],
+      [model.accuracy, model.loss, model.optimizer],
       feed_dict={
         model.X: batch_x[0],
         model.W: batch_x[1],
@@ -115,7 +122,7 @@ for e in range(5):
     batch_y = test_Y[i: min(i + batch_size, test_X.shape[0])]
     batch_x_expand = np.expand_dims(batch_x, axis=1)
     acc, cost = sess.run(
-      [model.accuracy, model.cost],
+      [model.accuracy, model.loss],
       feed_dict={
         model.X: batch_x[0],
         model.W: batch_x[1],
@@ -153,8 +160,4 @@ for i in pbar:
   ).tolist()
   real_Y += batch_y
 
-print(
-  metrics.classification_report(
-    real_Y, predict_Y, target_names=labels
-  )
-)
+print(metrics.classification_report(real_Y, predict_Y, target_names=labels))
