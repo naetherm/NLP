@@ -1,0 +1,16 @@
+--2020-08-11 14:05:35--  https://raw.githubusercontent.com/huseinzol05/NLP-Models-Tensorflow/master/question-answer/qa5_three-arg-relations_test.txt
+CA-Zertifikat »/etc/ssl/certs/ca-certificates.crt« wurde geladen
+Auflösen des Hostnamens raw.githubusercontent.com (raw.githubusercontent.com)… 151.101.112.133
+Verbindungsaufbau zu raw.githubusercontent.com (raw.githubusercontent.com)|151.101.112.133|:443 … verbunden.
+HTTP-Anforderung gesendet, auf Antwort wird gewartet … 200 OK
+Länge: 207037 (202K) [text/plain]
+Wird in »qa5_three-arg-relations_test.txt« gespeichert.
+
+     0K .......... .......... .......... .......... .......... 24% 1,25M 0s
+    50K .......... .......... .......... .......... .......... 49% 3,42M 0s
+   100K .......... .......... .......... .......... .......... 74% 3,62M 0s
+   150K .......... .......... .......... .......... .......... 98% 12,1M 0s
+   200K ..                                                    100% 61,8M=0,07s
+
+2020-08-11 14:05:36 (2,79 MB/s) - »qa5_three-arg-relations_test.txt« gespeichert [207037/207037]
+
