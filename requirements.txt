@@ -1,0 +1,7 @@
+tensorflow
+torch
+argparse
+conllu
+ujson
+regex
+tqdm
