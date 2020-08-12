@@ -2,6 +2,10 @@
 
 This repository represents just a collection of machine and deep learning approaches for different tasks in the field of NLP (Natural Language Processing).
 
+## Note
+
+Some codes, e.g. the BERT models for entity tagging and pos tagging are using <= Tensorflow 1.15, I am currently in the process of upgrading those to 2.x.
+
 ## Table of Contents
 
  * [Language Detection](#language-detection)
