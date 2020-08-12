@@ -1,4 +1,11 @@
 
+"""
+Based on the BERT model, further described in:
+'BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding'
+
+Source: https://arxiv.org/abs/1810.04805v2
+"""
+
 # If using the cased variant set those variables to ^cased too
 BERT_VOCAB = 'uncased_L-12_H-768_A-12/vocab.txt'
 BERT_INIT_CHKPNT = 'uncased_L-12_H-768_A-12/bert_model.ckpt'
