@@ -11,6 +11,7 @@ Some codes, e.g. the BERT models for entity tagging and pos tagging are using <=
  * [Language Detection](#language-detection)
  * [POS Tagging](#pos-tagging)
  * [Entity Tagging](#entity-tagging)
+ * [Word Segmentation](#word-segmentation)
  
 ## Content
 
@@ -40,3 +41,13 @@ There are the following implementations:
  There are the following implementations:
  
   * Basic BERT language model approach (10_bert.py)
+  
+### [Word Segmentation](word-segmentation)
+
+All models were trained on the first 30.000 lines of [Oscar Corpus EN](https://oscar-corpus.com/).
+
+There are the following implementations:
+
+  * LSTM based model (01_lstm.py)
+  * Bidirectional LSTM based model (02_bilstm.py)
+  * CNN based model (03_cnn.py)
