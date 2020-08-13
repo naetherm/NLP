@@ -576,7 +576,6 @@ def train(model, char2idx, idx2char, total_length, use_gpu=False):
         print("tag_scores: {}".format(tag_scores))
         print("tags: {}".format(tags))
 
-
     print("Training: Loss={}, Acc={}".format(train_loss/trained_sample_length, train_acc/trained_sample_length))
 
 
