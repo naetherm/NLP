@@ -45,7 +45,7 @@ There are the following implementations:
   
 ### [Sentiment Analysis](sentiment-analysis)
 
-All mdels were trained and evaluated on [IMDB Dataset](http://ai.stanford.edu/~amaas/data/sentiment/).
+All models were trained and evaluated on [IMDB Dataset](http://ai.stanford.edu/~amaas/data/sentiment/).
 
 There are the following implementations:
 
