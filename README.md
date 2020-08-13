@@ -11,6 +11,7 @@ Some codes, e.g. the BERT models for entity tagging and pos tagging are using <=
  * [Language Detection](#language-detection)
  * [POS Tagging](#pos-tagging)
  * [Entity Tagging](#entity-tagging)
+ * [Sentiment Analysis](#sentiment-analysis)
  * [Word Segmentation](#word-segmentation)
  
 ## Content
@@ -41,6 +42,15 @@ There are the following implementations:
  There are the following implementations:
  
   * Basic BERT language model approach (10_bert.py)
+  
+### [Sentiment Analysis](sentiment-analysis)
+
+All mdels were trained and evaluated on [IMDB Dataset](http://ai.stanford.edu/~amaas/data/sentiment/).
+
+There are the following implementations:
+
+  * LSTM model (01_lstm.py)
+  * Bidirectional LSTM model (02_bilstm.py)
   
 ### [Word Segmentation](word-segmentation)
 
