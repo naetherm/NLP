@@ -11,6 +11,7 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 import torch.optim as optim
+from torch.nn.utils.rnn import pad_sequence
 
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import LabelEncoder
@@ -122,7 +123,7 @@ def to_idx(item, mapper, unknown="@@@UNKNOWN@@@"):
   return mapper.get(item, unknown)
 
 
-def to_item(idx, idx_to_char, unknown='Unk'):
+def to_item(idx, idx_to_char, unknown='@@@UNKNOWN@@@'):
   """
   :param idx: int
       Index of item
@@ -333,7 +334,6 @@ def train(model, char2idx, idx2char, total_length, use_gpu=False):
       except:
         print("tag_scores: {}".format(tag_scores))
         print("tags: {}".format(tags))
-
 
     print("Training: Loss={}, Acc={}".format(train_loss/trained_sample_length, train_acc/trained_sample_length))
 

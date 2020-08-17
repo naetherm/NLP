@@ -122,7 +122,7 @@ def to_idx(item, mapper, unknown="@@@UNKNOWN@@@"):
   return mapper.get(item, unknown)
 
 
-def to_item(idx, idx_to_char, unknown='Unk'):
+def to_item(idx, idx_to_char, unknown='@@@UNKNOWN@@@'):
   """
   :param idx: int
       Index of item
