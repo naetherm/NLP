@@ -160,8 +160,8 @@ class LSTMChatbot(object):
                from_dict_size, to_dict_size, learning_rate, batch_size):
     super(LSTMChatbot, self).__init__()
     
-    def cells(reuse=False):
-      return tf.compat.v1.nn.rnn_cell.LSTMCell(hidden_size, reuse=reuse)
+    def cells(h_size, reuse=False):
+      return tf.compat.v1.nn.rnn_cell.LSTMCell(h_size, reuse=reuse)
     
     self.X = tf.compat.v1.placeholder(tf.int32, [None, None])
     self.Y = tf.compat.v1.placeholder(tf.int32, [None, None])
@@ -174,15 +174,29 @@ class LSTMChatbot(object):
     main = tf.strided_slice(self.X, [0, 0], [batch_size, -1], [1, 1])
     decoder_input = tf.concat([tf.fill([batch_size, 1], GO), main], 1)
     decoder_embedded = tf.nn.embedding_lookup(params=encoder_embeddings, ids=decoder_input)
-    rnn_cells = tf.compat.v1.nn.rnn_cell.MultiRNNCell([cells() for _ in range(num_layers)])
-    _, last_state = tf.compat.v1.nn.dynamic_rnn(rnn_cells, encoder_embedded,
-                                                sequence_length=self.X_seq_len,
-                                                dtype=tf.float32)
+    
+    # Multi layer architecture ->
+    for l in range(num_layers):
+      (o_fw, o_bw), (s_fw, s_bw) = tf.compat.v1.nn.bidirectional_dynamic_rnn(
+        cell_fw=cells(hidden_size // 2),
+        cell_bw=cells(hidden_size // 2),
+        inputs=encoder_embedded,
+        sequence_length=self.X_seq_len,
+        scope='birnn_L{}'.format(l),
+        dtype=tf.float32
+      )
+      encoder_embedded = tf.concat((o_fw, o_bw), axis=2)
+    
+    s_c_bi = tf.concat((s_fw.c, s_bw.c), axis=-1)
+    s_h_bi = tf.concat((s_fw.h, s_bw.h), axis=-1)
+    bi_lstm_state = tf.compat.v1.nn.rnn_cell.LSTMStateTuple(c=s_c_bi, h=s_h_bi)
+    s_last = tuple([bi_lstm_state] * num_layers)
+    
     with tf.compat.v1.variable_scope("decoder"):
-      rnn_cells_dec = tf.compat.v1.nn.rnn_cell.MultiRNNCell([cells() for _ in range(num_layers)])
+      rnn_cells_dec = tf.compat.v1.nn.rnn_cell.MultiRNNCell([cells(hidden_size) for _ in range(num_layers)])
       outputs, _ = tf.compat.v1.nn.dynamic_rnn(rnn_cells_dec, decoder_embedded,
                                                sequence_length=self.X_seq_len,
-                                               initial_state=last_state,
+                                               initial_state=s_last,
                                                dtype=tf.float32)
     self.logits = tf.compat.v1.layers.dense(outputs, to_dict_size)
     masks = tf.sequence_mask(self.Y_seq_len, tf.reduce_max(input_tensor=self.Y_seq_len), dtype=tf.float32)

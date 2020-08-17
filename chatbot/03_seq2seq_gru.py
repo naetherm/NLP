@@ -170,7 +170,6 @@ class GRUChatbot(object):
     batch_size = tf.shape(input=self.X)[0]
     
     encoder_embeddings = tf.Variable(tf.random.uniform([from_dict_size, embedded_size], -1, 1))
-    decoder_embeddings = tf.Variable(tf.random.uniform([to_dict_size, embedded_size], -1, 1))
     encoder_embedded = tf.nn.embedding_lookup(params=encoder_embeddings, ids=self.X)
     main = tf.strided_slice(self.X, [0, 0], [batch_size, -1], [1, 1])
     decoder_input = tf.concat([tf.fill([batch_size, 1], GO), main], 1)
@@ -196,7 +195,6 @@ class GRUChatbot(object):
     self.prediction = tf.boolean_mask(tensor=y_t, mask=masks)
     mask_label = tf.boolean_mask(tensor=self.Y, mask=masks)
     correct_pred = tf.equal(self.prediction, mask_label)
-    correct_index = tf.cast(correct_pred, tf.float32)
     self.accuracy = tf.reduce_mean(input_tensor=tf.cast(correct_pred, tf.float32))
 
 

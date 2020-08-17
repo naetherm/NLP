@@ -73,3 +73,6 @@ There are the following implementations:
   * Basic RNN model (01_seq2seq_rnn.py)
   * LSTM model (02_seq2seq_lstm.py)
   * GRU model (03_seq2seq_gru.py)
+  * Bidirectional Basic RNN model (04_seq2seq_birnn.py)
+  * Bidirectional LSTM model (05_seq2seq_bilstm.py)
+  * Bidirectional GRU model (06_seq2seq_bigru.py)
