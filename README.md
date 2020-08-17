@@ -13,6 +13,7 @@ Some codes, e.g. the BERT models for entity tagging and pos tagging are using <=
  * [Entity Tagging](#entity-tagging)
  * [Sentiment Analysis](#sentiment-analysis)
  * [Word Segmentation](#word-segmentation)
+ * [Chatbot](#chatbot)
  
 ## Content
 
@@ -61,3 +62,14 @@ There are the following implementations:
   * LSTM based model (01_lstm.py)
   * Bidirectional LSTM based model (02_bilstm.py)
   * CNN based model (03_cnn.py)
+  
+### [Chatbot](chatbot)
+
+All models within the chatbot section were trained with the [Cornell Movie Dialog Corpus](https://www.cs.cornell.edu/~cristian/Cornell_Movie-Dialogs_Corpus.html).
+The required files from the corpus were already added to the repository.
+
+There are the following implementations:
+
+  * Basic RNN model (01_seq2seq_rnn.py)
+  * LSTM model (02_seq2seq_lstm.py)
+  * GRU model (03_seq2seq_gru.py)
