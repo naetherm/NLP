@@ -6,6 +6,7 @@ import tensorflow_datasets as tfds
 from tensorflow.keras.preprocessing.text import Tokenizer
 from tensorflow.keras.preprocessing import sequence
 from tensorflow.keras.layers import Embedding, Bidirectional, LSTM, TimeDistributed, Dense
+import matplotlib.pyplot as plt
 import numpy as np
 import csv
 import collections
@@ -94,6 +95,14 @@ files = glob.glob("./ner/*.tags")
 data_pd = pd.concat([pd.read_csv(f, header=None, 
                                  names=["text", "label", "pos"]) 
                 for f in files], ignore_index = True)
+                
+# Minimal statistics
+labels, values = zip(*iob_tags.items())
+plt.bar(indexes, values)
+plt.xticks(indexes, labels, rotation='vertical')
+plt.margins(0.01)
+plt.subplots_adjust(bottom=0.15)
+plt.show()
                 
 # Keras tokenizer
 text_tok = Tokenizer(filters='[\\]^\t\n', lower=False, split=' ', oov_token='<OOV>')
