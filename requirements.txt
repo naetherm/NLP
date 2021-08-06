@@ -9,3 +9,5 @@ regex
 tqdm
 sklearn
 inflect
+nltk
+spacy
