@@ -1,4 +1,7 @@
 tensorflow
+tensorflow_addons
+tensorflow_datasets
+sentence_transformers
 bert-tensorflow
 xlnet-tensorflow
 torch
