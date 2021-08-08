@@ -5,6 +5,7 @@ sentence_transformers
 bert-tensorflow
 xlnet-tensorflow
 torch
+torchtext
 argparse
 conllu
 ujson
