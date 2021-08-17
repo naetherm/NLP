@@ -1,5 +1,6 @@
 import nltk, random
 import numpy as np
+nltk.download('movie_reviews')
 from nltk.corpus import movie_reviews
 import tensorflow as tf
 from tensorflow import keras
